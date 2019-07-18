@@ -3,6 +3,63 @@
 <link rel="stylesheet" href="font.css">
 </head>
 <body>
-<h1 id="row">Hello World</h1>        
+<h1 id="row">Currency Converter</h1> 
+<p>Select input currency:</p>
+<div>
+  <input type="radio" id="USD_VND" name="genderS" checked>
+  <label for="huey">USD</label>
+</div>
+<div>
+    <input type="radio" id="EUR_VND" name="genderS">
+    <label for="huey">EUR</label>
+</div>
+<div>
+<input type="text" id="amount"> 
+<button id="col" onclick="checkCurrency()">Convert Currency</button>   
+<span id="result"></span> 
+  
 </body>
+<script>
+function checkCurrency() {
+    var getCurrency = document.querySelector('input[name="genderS"]:checked').attributes('id');
+    alert(getCurrency);
+}
+
+function callApi(currency) {
+  var xhr = new XMLHttpRequest();
+  currency= document.getElementById(USD_VND).value;
+  xhr.open('GET', 'https://free.currconv.com/api/v7/convert?q=' + currency + '&compact=ultra&apiKey=73de144c7050707f4894');
+  xhr.onload = function() {
+      if (xhr.status === 200) {
+          updateResults(JSON.parse(xhr.responseText));
+      }
+      else {
+          alert('Request failed.  Returned status of ' + xhr.status);
+      }
+  };
+  xhr.send();
+}
+
+function updateResults(response) {
+  console.log(response);
+}
+function convertToVnd() {
+    let conversion = 23262;
+    let vndAmount = document.getElementById("amount").value;
+    document.getElementById("result").innerHTML = (vndAmount * conversion);
+}
+
+var radios = document.getElementsByName('genderS');
+
+for (var i = 0, length = radios.length; i < length; i++)
+{
+    if (radios[i].checked)
+    {
+        // do whatever you want with the checked radio
+        alert(radios[i].value);
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+}
+</script>
 </html>
